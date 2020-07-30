@@ -209,8 +209,14 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//The directory containing a CMake configuration file for OpenCV.
+OpenCV_DIR:PATH=/usr/local/lib/cmake/opencv4
+
 //Path to a library.
 REALSENSE2_FOUND:FILEPATH=/usr/local/lib/librealsense2.so
+
+//The directory containing a CMake configuration file for dlib.
+dlib_DIR:PATH=/usr/local/lib/cmake/dlib
 
 //Value Computed by CMake
 main_BINARY_DIR:STATIC=/home/mint/Desktop/RoboticsVision/build
@@ -370,4 +376,6 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 COMPILER_SUPPORTS_CXX0X:INTERNAL=1
 //Test COMPILER_SUPPORTS_CXX11
 COMPILER_SUPPORTS_CXX11:INTERNAL=1
+//Details about finding OpenCV
+FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/usr/local][v4.2.0()]
 

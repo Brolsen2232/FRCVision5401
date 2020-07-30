@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/mint/Desktop/RoboticsVision/build",
-  "command": "/usr/bin/c++   -I/home/mint/Desktop/RoboticsVision/main   -std=c++11   -o CMakeFiles/main.dir/main.cpp.o -c /home/mint/Desktop/RoboticsVision/main.cpp",
+  "command": "/usr/bin/c++   -I/home/mint/Desktop/RoboticsVision/main -isystem /usr/local/include/opencv4   -std=c++11   -Wreturn-type -o CMakeFiles/main.dir/main.cpp.o -c /home/mint/Desktop/RoboticsVision/main.cpp",
   "file": "/home/mint/Desktop/RoboticsVision/main.cpp"
 }
 ]
