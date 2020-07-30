@@ -1,0 +1,7 @@
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/install/strip.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/edit_cache.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/main.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/rebuild_cache.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/list_install_components.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/install/local.dir
+/home/mint/Desktop/RoboticsVision/build/CMakeFiles/install.dir
