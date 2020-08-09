@@ -2,6 +2,7 @@
 #include <librealsense2/rs.hpp>     
 #include <opencv2/opencv.hpp>
 #include "segmentation.cpp"
+#include <pcl>
 using namespace cv;
 int main(int argc, char * argv[]) try
 {
@@ -26,7 +27,7 @@ int main(int argc, char * argv[]) try
         
         imshow("RGB",colorFrame);
         imshow("Depth",depthFrame);
-        imshow("Segmented",segmentation(colorFrame, 16));
+        imshow("Segmented",segmentation(colorFrame, 6));
 
     }
 
