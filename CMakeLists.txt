@@ -6,7 +6,7 @@ project(main)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package( OpenCV REQUIRED )
 find_package( dlib )
-find_package(PCL 1.3 REQUIRED COMPONENTS common io)
+find_package(PCL 1.8 REQUIRED COMPONENTS common io)
 # Make project require C++11
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)

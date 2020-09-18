@@ -2,7 +2,9 @@
 #include <librealsense2/rs.hpp>     
 #include <opencv2/opencv.hpp>
 #include "segmentation.cpp"
-#include <pcl>
+#include "pclFunc.cpp"
+//#include <librealsense/rs.hpp>
+
 using namespace cv;
 int main(int argc, char * argv[]) try
 {
@@ -12,7 +14,7 @@ int main(int argc, char * argv[]) try
 
     cfg.enable_stream(RS2_STREAM_DEPTH, 640, 480, RS2_FORMAT_Z16);
     cfg.enable_stream(RS2_STREAM_COLOR, 640, 480, RS2_FORMAT_BGR8);
-
+    
     rs2::pipeline_profile profile = p.start(cfg);
     namedWindow("RGB", WINDOW_AUTOSIZE);
     namedWindow("Depth", WINDOW_AUTOSIZE);
