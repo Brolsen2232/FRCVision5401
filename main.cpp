@@ -77,13 +77,13 @@ int main(int argc, char * argv[]) try
         rs2::frameset frames = pipe.wait_for_frames();
         rs2::frame depth = frames.get_depth_frame();
         rs2::frame color_Frame = frames.get_color_frame();
-        //Mat _color(Size(640, 480), CV_8UC3, (void*)color.get_data(), Mat::AUTO_STEP);
+        Mat _color(Size(640, 480), CV_8UC3, (void*)color_Frame.get_data(), Mat::AUTO_STEP);
         //Mat _depth(Size(640, 480), CV_8UC3, (void*)depth.get_data(), Mat::AUTO_STEP);
         //imshow("Depth",depthFrame);
         //imshow("Segmented",segmentation(colorFrame, 16));
        //Mat _color(Size(640, 480), CV_8UC3, (void*)color_Frame.get_data(), Mat::AUTO_STEP);
         //cv::Size size = depthFrame.size();
-        
+        imshow("color", _color);
 		
 
         rs2::pointcloud pc;
@@ -113,6 +113,7 @@ int main(int argc, char * argv[]) try
         viewer->removeAllPointClouds();
         //viewer.showCloud(points_to_pcl(points));   
         int j = 0;
+        waitKey(1);
         
   for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
   {
