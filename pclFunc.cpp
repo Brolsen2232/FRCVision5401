@@ -14,6 +14,7 @@
 #include <pcl/filters/extract_indices.h>
 #include <pcl/keypoints/harris_3d.h>
 #include <pcl/ModelCoefficients.h>
+#include <pcl/filters/statistical_outlier_removal.h>
 #include <pcl/segmentation/sac_segmentation.h>
 pcl::PointCloud<pcl::PointXYZ>::Ptr VoxelGrid(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
     typedef pcl::PointXYZ PointT;
@@ -24,14 +25,23 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr VoxelGrid(pcl::PointCloud<pcl::PointXYZ>::Pt
     vg.filter(*cloud);
     return cloud;
 }
-
+pcl::PointCloud<pcl::PointXYZ>::Ptr sor(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+  sor.setInputCloud (cloud);
+  sor.setMeanK (50);
+  sor.setStddevMulThresh (1.0);
+  sor.filter (*cloud_filtered);
+  return cloud_filtered;
+}
+    
 pcl::PointCloud<pcl::PointXYZ>::Ptr PassThrough(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
   typedef pcl::PointXYZ PointT;
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PassThrough<PointT> pass;
 	pass.setInputCloud (cloud);
-	pass.setFilterFieldName ("y");
-	pass.setFilterLimits (-1.0, 0.0);
+	pass.setFilterFieldName ("z");
+	pass.setFilterLimits (0.0, 1.0);
   pass.filter (*cloud_filtered);
     return cloud_filtered;
 }
@@ -148,46 +158,20 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr harris3d(pcl::PointCloud<pcl::PointXYZ>::Ptr
 }
 
 std::vector<pcl::PointIndices> planeSeg(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
-   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_f(new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::SACSegmentation<pcl::PointXYZ> seg;
+    pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients);
   pcl::PointIndices::Ptr inliers (new pcl::PointIndices);
-  pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients);
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_plane (new pcl::PointCloud<pcl::PointXYZ> ());
-  pcl::PCDWriter writer;
+  // Create the segmentation object
+  pcl::SACSegmentation<pcl::PointXYZ> seg;
+  // Optional
   seg.setOptimizeCoefficients (true);
+  // Mandatory
   seg.setModelType (pcl::SACMODEL_PLANE);
   seg.setMethodType (pcl::SAC_RANSAC);
-  seg.setMaxIterations (15);
-  seg.setDistanceThreshold (1.0);
+  seg.setDistanceThreshold (0.01);
 
-  int i=0, nr_points = (int) cloud->points.size ();
-  while (cloud->points.size () > 0.4 * nr_points)
-  {
-    // Segment the largest planar component from the remaining cloud
-    seg.setInputCloud (cloud);
-    seg.segment (*inliers, *coefficients);
-    if (inliers->indices.size () == 0)
-    {
-      std::cout << "Could not estimate a planar model for the given dataset." << std::endl;
-      break;
-    }
-
-    // Extract the planar inliers from the input cloud
-    pcl::ExtractIndices<pcl::PointXYZ> extract;
-    extract.setInputCloud (cloud);
-    extract.setIndices (inliers);
-    extract.setNegative (false);
-
-    // Get the points associated with the planar surface
-    extract.filter (*cloud_plane);
-    //std::cout << "PointCloud representing the planar component: " << cloud_plane->points.size () << " data points." << std::endl;
-
-    // Remove the planar inliers, extract the rest
-    extract.setNegative (true);
-    extract.filter (*cloud_f);
-    *cloud = *cloud_f;
-  }
- 
+  seg.setInputCloud (cloud);
+  seg.segment (*inliers, *coefficients);
+  
 
   // Creating the KdTree object for the search method of the extraction
   pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
