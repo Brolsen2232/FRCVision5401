@@ -1,0 +1,4 @@
+/home/brolsen/FRCVision5401/GUIApplication/build/CMakeFiles/edit_cache.dir
+/home/brolsen/FRCVision5401/GUIApplication/build/CMakeFiles/rebuild_cache.dir
+/home/brolsen/FRCVision5401/GUIApplication/build/CMakeFiles/GUIApplication.dir
+/home/brolsen/FRCVision5401/GUIApplication/build/CMakeFiles/GUIApplication_autogen.dir
